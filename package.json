@@ -1,0 +1,32 @@
+{
+  "name": "moka-test",
+  "version": "0.0.0",
+  "description": "Code for Moka interview test.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daleooo/moka-test.git"
+  },
+  "keywords": [
+    "react",
+    "Moka",
+    "interview",
+    "solution"
+  ],
+  "author": "dale",
+  "bugs": {
+    "url": "https://github.com/daleooo/moka-test/issues"
+  },
+  "homepage": "https://github.com/daleooo/moka-test",
+  "engines" : {
+    "node" : "4.1.x"
+  }
+}

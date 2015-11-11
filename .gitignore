@@ -1,0 +1,8 @@
+*~
+node_modules
+.DS_Store
+
+# Ingore all vim temporary files and swap files
+*~
+*.swp
+*.swo
