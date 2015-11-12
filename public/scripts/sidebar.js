@@ -1,114 +1,108 @@
-var Comment = React.createClass({
-  rawMarkup: function() {
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: rawMarkup };
-  },
+var departmentsMock = [
+  {id: 1, name: "工程研发部门"},
+  {id: 2, name: "产品设计部门"},
+]
 
+var jobsMock = [
+  {id: 1, department_id: 1, name: "Mac 测试开发工程师", quantity: 9},
+  {id: 2, department_id: 1, name: "IOS App 测试工程师", quantity: 17},
+  {id: 3, department_id: 2, name: "网页设计师",         quantity: 30},
+  {id: 4, department_id: 2, name: "ID / 工业设计师",    quantity: 30},
+];
+
+var getJobsByDepartmentId = function (id) {
+  var jobs = [];
+
+  jobsMock.map(function (job) {
+    if (job.department_id == id) {
+      jobs.push(job);
+    }
+  })
+
+  return jobs;
+}
+
+var JobRow = React.createClass({
   render: function() {
-    return (
-      <div className="comment">
-      <h2 className="commentAuthor">
-      {this.props.author}
-      </h2>
-      <span dangerouslySetInnerHTML={this.rawMarkup()} />
-      </div>
+    console.log("JobRow render");
+
+    var job = this.props.job;
+    return(
+      <tr className="jobRow">
+      <td></td>
+      <td><input type="checkbox" /></td>
+      <td>{job.name}</td>
+      <td>{job.quantity}</td>
+      </tr>
     );
   }
 });
 
-var CommentList = React.createClass({
+var JobTable = React.createClass({
   render: function() {
-    var commentNodes = this.props.data.map(function (comment) {
+    console.log("DepartmentBox render");
+
+    var department = this.props.department,
+      jobs = department.jobs,
+      quantity = 0;
+
+    var jobRowNodes = jobs.map(function (job) {
+      quantity += job.quantity;
       return (
-        <Comment author={comment.author}>
-        {comment.text}
-        </Comment>
+        <JobRow key={job.id} job={job} />
       );
     });
+
     return (
-      <div className="commentList">
-      {commentNodes}
+      <div className="jobTable">
+      <p><input type="checkbox" /></p>
+      <p>{department.name}</p>
+      <p>{quantity}</p>
+      <table>
+      <tbody>
+      {jobRowNodes}
+      </tbody>
+      </table> 
       </div>
     );
   }
 });
 
-var CommentForm = React.createClass({
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var author = this.refs.author.value.trim();
-    var text = this.refs.text.value.trim();
-    if (!text || !author) {
-      return;
-    }
-    // TODO: send request to the server
-    this.props.onCommentSubmit({author: author, text: text});
-    this.refs.author.value = '';
-    this.refs.text.value = '';
-    return;
-  },
+var JobBox = React.createClass({
   render: function() {
+    console.log("JobBox render");
+
+    var jobTableNodes = departmentsMock.map(function (department) {
+      department.jobs = getJobsByDepartmentId(department.id);
+      return (
+        <JobTable key={department.id} department={department} />
+      );
+    });
+
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-      <input type="text" placeholder="Your name" ref="author" />
-      <input type="text" placeholder="Say something..." ref="text" />
-      <input type="submit" value="Post" />
-      </form>
+      <div className="jobBox">
+      <p>招聘职位</p>
+      <p>清空</p>
+      {jobTableNodes}
+      </div> 
     );
   }
 });
 
-var CommentBox = React.createClass({
-  loadCommentsFromServer: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      type: 'POST',
-      data: comment,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  },
+
+var Sidebar = React.createClass({
   render: function() {
+    console.log("Sidebar render");
     return (
-      <div className="commentBox">
-      <h1>Comments</h1>
-      <CommentList data={this.state.data} />
-      <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      <div className="sidebar">
+      <JobBox />
       </div>
     );
   }
 });
 
 ReactDOM.render(
-  <CommentBox url="/api/comments" />,
-  document.getElementById('content')
+  <Sidebar/>,
+  document.getElementById('sidebar')
 );
 

@@ -1,6 +1,16 @@
-# Moka Test Tutorial
+# Moka Test
 
 This is the solution of [the Moka Interview Test](https://github.com/daleooo/moka-test.html).
+
+# Component Hierarchy
+
+- Sidebar
+  - JobBox
+    - JobRow
+    - JobRow
+  - JobBox
+    - JobRow
+    - JobRow
 
 ## To use
 
