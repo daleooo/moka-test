@@ -18,7 +18,13 @@ You can change the port number by setting the `$PORT` environment variable befor
 PORT=3001 node server.js
 ```
 
-# Component Hierarchy
+## Time Used
+
+- Learning: 3h
+- Designing: 2h
+- Coding: 8h
+
+## Component Hierarchy
 
 - Sidebar
   - JobBox
@@ -28,14 +34,7 @@ PORT=3001 node server.js
     - JobRow
     - JobRow
 
-
-# Time Used
-
-- Learning: 3h
-- Designing: 2h
-- Coding: 8h
-
-# Not Finished
+## Not Finished
 
 - Checkbox CSS style.
 - Job Box open and fold.
