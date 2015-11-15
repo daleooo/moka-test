@@ -29,11 +29,11 @@ PORT=3001 node server.js
     - JobRow
 
 
-# Time
+# Time Used
 
 - Learning: 3h
 - Designing: 2h
-- coding: 8h
+- Coding: 8h
 
 # Not Finished
 
