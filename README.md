@@ -1,16 +1,6 @@
 # Moka Test
 
-This is the solution of [the Moka Interview Test](https://github.com/daleooo/moka-test.html).
-
-# Component Hierarchy
-
-- Sidebar
-  - JobBox
-    - JobRow
-    - JobRow
-  - JobBox
-    - JobRow
-    - JobRow
+This is the solution of [the Moka Interview Test](https://github.com/daleooo/moka-test).
 
 ## To use
 
@@ -27,3 +17,25 @@ You can change the port number by setting the `$PORT` environment variable befor
 ```sh
 PORT=3001 node server.js
 ```
+
+# Component Hierarchy
+
+- Sidebar
+  - JobBox
+    - JobRow
+    - JobRow
+  - JobBox
+    - JobRow
+    - JobRow
+
+
+# Time
+
+- Learning: 3h
+- Designing: 2h
+- coding: 8h
+
+# Not Finished
+
+- Checkbox CSS style.
+- Job Box open and fold.

@@ -66,11 +66,6 @@
   text-align: center;
 }
 
-p {
-  margin: 0px;
-  color: white;
-}
-
 .job-box-name {
   font-size: 1.2em;
   color: rgb(215, 222, 226);
@@ -87,6 +82,12 @@ p {
 .job-row>p {
   font-size: 0.8em;
   color: rgb(215, 222, 226);
+}
+
+
+p {
+  margin: 0px;
+  color: white;
 }
 
 input[type="checkbox"] {
