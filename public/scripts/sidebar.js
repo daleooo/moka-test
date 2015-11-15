@@ -37,9 +37,6 @@ var serverDeleteJobById = function (id) {
   jobsMock = jobs.filter(function (job) {
     return (job.id != id); 
   })
-
-  console.log("Delete Job " + id);
-  console.log(jobsMock);
 }
 
 var JobRow = React.createClass({
@@ -48,10 +45,11 @@ var JobRow = React.createClass({
 
     var job = this.props.job;
     return(
-      <div className="jobRow">
-      <input type="checkbox" className="jobCheckbox" checked={job.checked} value={job.id} />
-      <div>{job.name}</div>
-      <div>{job.quantity}</div>
+      <div className="job-row flex-container">
+      <div className="job-row-placeholder"></div>
+      <input type="checkbox" className="job-row-checkbox" checked={job.checked} value={job.id} />
+      <p className="job-row-name">{job.name}</p>
+      <p className="job-row-quantity">{job.quantity}</p>
       </div>
     );
   }
@@ -70,7 +68,6 @@ var JobTable = React.createClass({
 
     /* dynamic load here  */
     var jobs = serverGetJobsByDepartmentId(id);
-    console.log(jobs);
     this.setState({jobs: jobs.map(function (job) {
       job.checked = false; 
       return job;
@@ -78,12 +75,10 @@ var JobTable = React.createClass({
   },
 
   componentWillMount: function () {
-    console.log("Job Table cWm");
     this.updateJobs();
   },
 
   componentWillReceiveProps: function () {
-    console.log("Job Table wrp");
     this.updateJobs();
   },
 
@@ -118,13 +113,15 @@ var JobTable = React.createClass({
     var setJobsState = _setJobsState.bind(this);
 
     switch (t.className) {
-      case "departmentCheckbox":
+      case "job-table-checkbox":
+        console.log("table");
         if (t.checked)
           setJobsState(true);         
         else
           setJobsState(false);         
         break;
-      case "jobCheckbox":
+      case "job-row-checkbox":
+        console.log("row");
         if (t.checked)
           setJobsState(true, t.value);
         else
@@ -135,13 +132,10 @@ var JobTable = React.createClass({
     }
 
     e.stopPropagation();
-
-    console.log(this.state.jobs);
   },
 
   render: function() {
     console.log("JobTable render");
-    console.log(this.state.jobs);
 
     var department = this.props.department,
       jobs = this.state.jobs,
@@ -157,10 +151,12 @@ var JobTable = React.createClass({
     
     if (quantity > 0) {
       return (
-        <div className="jobTable" onChange={this.handleJobStateChange}>
-        <p><input type="checkbox" className="departmentCheckbox" checked={this.state.jobState} value={department.id}/></p>
-        <p>{department.name}</p>
-        <p>{quantity}</p>
+        <div className="job-table" onChange={this.handleJobStateChange}>
+        <div className="job-table-header flex-container">
+        <input type="checkbox" className="job-table-checkbox" checked={this.state.jobState} value={department.id}/>
+        <p className="job-table-name">{department.name}</p>
+        <p className="job-table-quantity">{quantity}</p>
+        </div>
         {jobRowNodes}
         </div>
       );
@@ -185,13 +181,10 @@ var JobBox = React.createClass({
 
     /* dynamic load here  */
     var departments = serverGetDepartments();
-    console.log("Job box cdm");
-    console.log(departments);
     this.setState({departments: departments});
   },
 
   handleJobStateChange: function (checked, id) {
-    console.log(id);
     if (checked) {
       if (this.jobState[id] !== undefined) 
         this.jobState[id]  = true;
@@ -203,7 +196,6 @@ var JobBox = React.createClass({
         this.jobState[id] = false;
     }
 
-    console.log(this.jobState);
   },
 
   handleButtonClick: function () {
@@ -217,9 +209,6 @@ var JobBox = React.createClass({
 
   render: function() {
     console.log("JobBox render");
-    console.log(this.state.departments);
-    console.log(departmentsMock);
-    console.log(jobsMock);
 
     var that = this;
     var jobTableNodes = this.state.departments.map(function (department) {
@@ -230,9 +219,11 @@ var JobBox = React.createClass({
     });
 
     return (
-      <div className="jobBox">
-      <p>招聘职位</p>
-      <button onClick={this.handleButtonClick}>清空</button>
+      <div className="job-box">
+      <div className="flex-container">
+      <p className="job-box-name">招聘职位</p>
+      <button className="job-box-button" onClick={this.handleButtonClick}>清空</button>
+      </div>
       {jobTableNodes}
       </div> 
     );
@@ -245,7 +236,7 @@ var Sidebar = React.createClass({
     console.log("Sidebar render");
     return (
       <div className="sidebar">
-      <JobBox data={departmentsMock} />
+      <JobBox />
       </div>
     );
   }
